@@ -1,0 +1,107 @@
+.about-project {
+  padding: 110px 70px;
+}
+
+.about-project__title {
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  color: #fff;
+  border-bottom: 1px solid #DADADA;
+  margin: 0 0 70px 0;
+  padding-bottom: 23px;
+}
+
+
+
+.about-project__steps {
+  display: grid;
+  grid-template-columns: repeat(6,auto);
+  grid-template-rows: repeat(2,auto);
+}
+
+.about-project__steps-week {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  padding: 9px 0;
+  margin: 0;
+}
+
+.about-project__steps-text {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #8B8B8B;
+  margin: 14px 0 0 0;
+}
+
+.about-project__steps-week_one {
+  grid-column-start: 1;
+  grid-column-end: 2;
+  color: #000;
+  background: #3DDC84;
+}
+
+.about-project__steps-week_four {
+  grid-column-start: 2;
+  grid-column-end: 7;
+  color: #fff;
+  background: #303030;
+}
+
+.about-project__steps-text_back {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+
+.about-project__steps-text_front {
+  grid-column-start: 2;
+  grid-column-end: 7;
+}
+
+@media (max-width:999px) {
+  .about-project {
+    padding: 90px 50px;
+  }
+}
+
+@media (max-width:720px) {
+  .about-project{
+    padding: 70px 18px;
+  }
+
+  .about-project__title {
+    font-size: 18px;
+    line-height: 22px;
+    padding-bottom: 28px;
+    margin-bottom: 60px;
+  }
+
+  .about-project__steps {
+    grid-template-columns: repeat(4, auto);
+  }
+
+  .about-project__steps-week_four {
+    grid-column-start: 2;
+    grid-column-end: 5;
+  }
+
+  .about-project__steps-text_front {
+    grid-column-start: 2;
+    grid-column-end: 5;
+  }
+
+  .about-project__steps-week {
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .about-project__steps-text {
+    font-size: 11px;
+    line-height: 13px;
+  }
+}

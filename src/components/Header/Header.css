@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  padding: 18px 70px;
+  position: relative;
+}
+
+.header_type_main {
+  background: #073042;;
+}
+
+.header__logo {
+  margin: auto;
+  margin-right: 44px;
+}
+
+@media (max-width:992px) {
+  .header {
+    padding: 18px 30px;
+  }
+}
+
+@media (max-width:720px) {
+  .header {
+    padding: 18px 14px;
+  }
+}
