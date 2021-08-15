@@ -106,8 +106,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  // baseUrl: 'https://api.movies.explorer.nomoredomains.club'
-  baseUrl: "http://localhost:3001"
+  baseUrl: "https://api.movies.explorer.nomoredomains.club"
 });
 
 export default mainApi;
