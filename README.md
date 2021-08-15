@@ -1,3 +1,3 @@
-# Getting Started with Create React App
+# Movies Explorer / Фронтенд
 
-Данный проект доступен по ссылке movies.explorer.nomoredomains.club
+Данный проект доступен по ссылке [movies.explorer.nomoredomains.club](https://movies.explorer.nomoredomains.club)
