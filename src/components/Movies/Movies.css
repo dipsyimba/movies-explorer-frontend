@@ -16,6 +16,11 @@
   cursor: pointer;
 }
 
+.movies-content__message {
+  color: #fff;
+  text-align: center;
+}
+
 @media screen and (max-width:640px) {
   .movies-content__button {
     width: 240px;

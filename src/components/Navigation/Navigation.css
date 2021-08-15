@@ -13,9 +13,9 @@
   color: #FFF;
 }
 
-/* .header__link_movies {
-  color: #FFF;
-} */
+.header__link_active {
+  text-decoration: underline;
+}
 
 .header__nav_position_right {
   justify-content: flex-end;

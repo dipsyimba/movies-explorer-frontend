@@ -1,0 +1,109 @@
+.popup {
+  position: fixed;
+  z-index: 5;
+  bottom: 25px;
+  right: 25px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  height: 200px;
+  padding: 20px;
+  border: 1px solid red;
+  border-radius: 5px;
+  background-color: #b4b4b4;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility .3s, opacity .3s linear;
+  box-sizing: border-box;
+}
+
+.popup_hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.popup_success {
+  border-color: green;
+}
+
+.popup__close {
+  position: absolute;
+  top: -18px;
+  left: 135px;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  border: none;
+  padding: 0;
+  background-color: transparent;
+  background-image: url('../../images/cancel.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.popup__close_success {
+  background-image: url('../../images/checked.png');
+}
+
+.popup__title {
+  margin: 0;
+  font-size: 20px;
+  line-height: initial;
+  color: red;
+}
+
+.popup__title_success {
+  color: green;
+}
+
+.popup__text {
+  margin: 10px 0 0 0;
+}
+
+@media screen and (max-width: 799px) {
+  .popup {
+    width: 400px;
+    height: 300px;
+    padding: 40px 30px 30px;
+  }
+
+  .popup__close {
+    top: -25px;
+    left: 170px;
+    width: 50px;
+    height: 50px;
+  }
+
+  .popup__title {
+    font-size: 35px;
+  }
+
+  .popup__text {
+    margin-top: 25px;
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 399px) {
+  .popup {
+    width: 250px;
+    height: 250px;
+    padding: 20px;
+  }
+
+  .popup__close {
+    top: -25px;
+    left: -20px;
+  }
+
+  .popup__title {
+    font-size: 20px;
+  }
+
+  .popup__text {
+    margin-top: 20px;
+    font-size: 15px;
+  }
+}
