@@ -69,6 +69,12 @@
   cursor: pointer;
 }
 
+.login__button_disabled {
+  pointer-events: none;
+  cursor: default;
+  background-color: gray;
+}
+
 .login__question {
   text-align: center;
   color: #8B8B8B;
@@ -79,6 +85,12 @@
 .login__link {
   color: #4285F4;
   text-decoration: none;
+}
+
+.login__input-error {
+  color: #EE3465;
+  font-size: 10px;
+  line-height: 12px;
 }
 
 @media screen and (max-width:768px) {

@@ -84,6 +84,10 @@
   display: flex;
 }
 
+.burger-menu__link_active {
+  border-bottom: 2px solid #fff;
+}
+
 @media (max-width: 599px) {
   .burger-menu__container{
     width: 100%;
