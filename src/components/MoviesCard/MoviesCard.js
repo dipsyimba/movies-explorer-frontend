@@ -12,6 +12,8 @@ function MoviesCard(props) {
   }
 
   function getMovieImageLink(movie) {
+    // console.log(movie.liked);
+    // console.log(movie.isSaved);
     if (movie.image && movie.image.url) {
       return convertMovieLink(movie.image.url);
     } else if (movie.image) {

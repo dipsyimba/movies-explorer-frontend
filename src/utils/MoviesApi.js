@@ -11,14 +11,12 @@ class MoviesApi {
   }
 
   getMovies() {
-    return fetch(this._baseUrl)
-      .then(res => this._checkResponseData(res));
+    return fetch(this._baseUrl).then((res) => this._checkResponseData(res));
   }
 }
 
-
 const moviesApi = new MoviesApi({
-  baseUrl: 'https://api.nomoreparties.co/beatfilm-movies',
+  baseUrl: "https://api.nomoreparties.co/beatfilm-movies"
 });
 
 export default moviesApi;

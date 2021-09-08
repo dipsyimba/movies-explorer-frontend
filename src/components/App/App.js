@@ -20,11 +20,7 @@ import NotFound from "../NotFound/NotFound";
 
 import mainApi from "../../utils/MainApi";
 import moviesApi from "../../utils/MoviesApi";
-import {
-  convertMovieLink,
-  getMovieByKeyword,
-  markSavedMovies
-} from "../../utils/utils";
+import { convertMovieLink, getMovieByKeyword } from "../../utils/utils";
 import InfoPopup from "../InfoPopup/InfoPopup";
 import getErrorMessage from "../../utils/errorMessages";
 
@@ -44,12 +40,30 @@ function App() {
     message: "Что-то пошло не так..."
   });
 
+  const markSavedMovies = (allMovies, savedMovies) => {
+    savedMovies.forEach((savedMovie) => {
+      const movie = allMovies.find(
+        (movie) => movie.nameRU === savedMovie.nameRU
+        // &&
+        // savedMovie.likes.some((i) => i === currentUser._id)
+      );
+      if (typeof movie !== "undefined") {
+        if (savedMovie.likes.some((i) => i === currentUser._id)) {
+          movie.isSaved = true;
+        } else {
+          movie.isSaved = false;
+        }
+      }
+    });
+    return allMovies;
+  };
+
   useEffect(() => {
     if (loggedIn) {
       mainApi
         .getUserInfo()
         .then((userData) => {
-          setCurrentUser({ name: userData.name, email: userData.email });
+          setCurrentUser(userData);
         })
         .catch((err) => {
           console.log(err);
@@ -83,7 +97,7 @@ function App() {
     } else {
       setMovies([]);
     }
-  }, [savedMovies]);
+  }, [savedMovies, history]);
 
   function handleSignUpSubmit(data) {
     setIsLoading(true);
@@ -171,40 +185,55 @@ function App() {
   }
 
   function handleSaveMovie(movie) {
-    mainApi
-      .addMovie({
-        movieId: movie.id,
-        country: movie.country || "unknown",
-        description: movie.description,
-        director: movie.director,
-        duration: movie.duration,
-        image: convertMovieLink(movie.image.url),
-        thumbnail: convertMovieLink(movie.image.formats.thumbnail.url),
-        nameEN: movie.nameEN || "unknown",
-        nameRU: movie.nameRU,
-        trailer: movie.trailerLink,
-        year: movie.year
-      })
-      .then((savedMovie) => {
-        setSavedMovies([savedMovie, ...savedMovies]);
-      })
-      .catch((err) => {
-        openInfoPopup(getErrorMessage(err));
+    const savedFilms = JSON.parse(localStorage.getItem("saved-movies"));
+    const saved = savedFilms.find((movieObj) => movieObj.movieId === movie.id);
+
+    if (saved) {
+      mainApi.changeLikeMovie(saved._id, false).then((savedMovie) => {
+        savedFilms[savedFilms.indexOf(saved)] = savedMovie;
+        setSavedMovies(savedFilms);
+        localStorage.setItem("saved-movies", JSON.stringify(savedFilms));
       });
+    } else {
+      mainApi
+        .addMovie({
+          movieId: movie.id,
+          country: movie.country || "unknown",
+          description: movie.description,
+          director: movie.director,
+          duration: movie.duration,
+          image: convertMovieLink(movie.image.url),
+          thumbnail: convertMovieLink(movie.image.formats.thumbnail.url),
+          nameEN: movie.nameEN || "unknown",
+          nameRU: movie.nameRU,
+          trailer: movie.trailerLink,
+          year: movie.year
+        })
+        .then((addedMovie) => {
+          setSavedMovies([addedMovie, ...savedMovies]);
+          localStorage.setItem(
+            "saved-movies",
+            JSON.stringify([addedMovie, ...savedMovies])
+          );
+        })
+        .catch((err) => {
+          openInfoPopup(getErrorMessage(err));
+        });
+    }
   }
 
   function handleDeleteMovie(movie) {
     const movieId = movie.id || movie.movieId;
-    const movieToDelete = savedMovies.find(
-      (savedMovie) => savedMovie.movieId === movieId
+    const savedFilms = JSON.parse(localStorage.getItem("saved-movies"));
+    const movieToDelete = savedFilms.find(
+      (movieObj) => movieObj.movieId === movieId
     );
     mainApi
-      .deleteSavedMovie(movieToDelete._id)
-      .then(() => {
-        const updatedSavedMovies = savedMovies.filter(
-          (savedMovie) => savedMovie.movieId !== movieId
-        );
-        setSavedMovies(updatedSavedMovies);
+      .changeLikeMovie(movieToDelete._id, true)
+      .then((dislikedMovie) => {
+        savedFilms[savedFilms.indexOf(movieToDelete)] = dislikedMovie;
+        setSavedMovies(savedFilms);
+        localStorage.setItem("saved-movies", JSON.stringify(savedFilms));
       })
       .catch((err) => {
         openInfoPopup(getErrorMessage(err));
@@ -212,7 +241,7 @@ function App() {
   }
 
   function handleCardButtonClick(movie) {
-    if (!movie.isSaved && !movie._id) {
+    if (!movie.isSaved) {
       handleSaveMovie(movie);
     } else {
       handleDeleteMovie(movie);
@@ -277,7 +306,7 @@ function App() {
             component={SavedMovies}
             loggedIn={loggedIn}
             savedMovies={savedMovies}
-            onCardButtonClick={handleCardButtonClick}
+            onCardButtonClick={handleDeleteMovie}
           />
           <ProtectedRoute
             exact

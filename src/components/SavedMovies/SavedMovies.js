@@ -3,13 +3,16 @@ import Header from "../Header/Header.js";
 import Footer from "../Footer/Footer";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getMovieByKeyword, getShortMovies } from "../../utils/utils";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function SavedMovies(props) {
   const { savedMovies, onCardButtonClick, loggedIn } = props;
+  const currentUser = useContext(CurrentUserContext);
   const [searchWord, setSearchWord] = useState("");
   const [isFilterChecked, setIsFilterChecked] = useState(false);
+  const [savedMoviesByCurrentUser, setSavedMoviesByCurrentUser] = useState([]);
   const [movies, setMovies] = useState(savedMovies);
   const moviesQty = movies.length > 0;
   const searchMessage =
@@ -24,10 +27,23 @@ function SavedMovies(props) {
   }
 
   useEffect(() => {
-    const foundMovies = getMovieByKeyword(savedMovies, searchWord);
+    const arr = savedMovies.filter((item) =>
+      item.likes.some((i) => i === currentUser._id)
+    );
+    setSavedMoviesByCurrentUser(arr);
+  }, [currentUser._id, savedMovies]);
+
+  useEffect(() => {
+    const foundMovies = getMovieByKeyword(savedMoviesByCurrentUser, searchWord);
     const filteredMovies = getShortMovies(foundMovies, isFilterChecked);
     setMovies(filteredMovies);
-  }, [savedMovies, searchWord, isFilterChecked]);
+  }, [
+    savedMovies,
+    searchWord,
+    isFilterChecked,
+    savedMoviesByCurrentUser,
+    currentUser._id
+  ]);
 
   return (
     <>

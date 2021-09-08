@@ -20,7 +20,6 @@ export const markSavedMovies = (allMovies, savedMovies) => {
       movie.isSaved = true;
     }
   });
-
   return allMovies;
 };
 

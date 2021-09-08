@@ -97,16 +97,26 @@ class MainApi {
     }).then((res) => this._checkResponseData(res));
   }
 
-  deleteSavedMovie(id) {
-    return fetch(`${this._baseUrl}/movies/${id}`, {
-      method: "DELETE",
+  changeLikeMovie(movieId, isLiked) {
+    return fetch(`${this._baseUrl}/movies/${movieId}/likes`, {
+      method: !isLiked ? "PUT" : "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      },
       credentials: "include"
     }).then((res) => this._checkResponseData(res));
   }
+
+  // deleteSavedMovie(id) {
+  //   return fetch(`${this._baseUrl}/movies/${id}`, {
+  //     method: "DELETE",
+  //     credentials: "include"
+  //   }).then((res) => this._checkResponseData(res));
+  // }
 }
 
 const mainApi = new MainApi({
-  baseUrl: "https://api.movies.explorer.nomoredomains.club"
+  baseUrl: "http://localhost:3001"
 });
 
 export default mainApi;
